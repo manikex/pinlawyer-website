@@ -25,16 +25,67 @@ export default function ContactPage() {
 
   return (
     <section className="bg-white">
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 px-4 md:px-12">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero – deep teal with abstract lines, only bottom corners gently rounded */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
+        {/* Abstract net lines – delicate SVG overlay */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20"
+          viewBox="0 0 1200 400"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Flowing bezier curves */}
+          <path
+            d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100"
+            stroke="#E5B85C"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150"
+            stroke="#E5B85C"
+            strokeWidth="1"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.6"
+          />
+          <path
+            d="M-100 150 C150 300, 350 50, 550 250 C750 450, 950 200, 1300 250"
+            stroke="#E5B85C"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.5"
+          />
+          {/* Subtle net mesh */}
+          <path
+            d="M200 0 L250 400 M500 0 L520 400 M800 0 L790 400 M1100 0 L1080 400"
+            stroke="#E5B85C"
+            strokeWidth="0.5"
+            opacity="0.3"
+          />
+          <path
+            d="M0 100 L1200 80 M0 200 L1200 220 M0 300 L1200 290"
+            stroke="#E5B85C"
+            strokeWidth="0.5"
+            opacity="0.3"
+          />
+          {/* Small decorative circles */}
+          <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.7" />
+          <circle cx="850" cy="300" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.5" />
+          <circle cx="1050" cy="120" r="2.5" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
+        </svg>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
           >
-            Contact <span className="text-amber-400">Pin Lawyer</span>
+            Contact <span className="text-[#E5B85C]">Pin Lawyer</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -62,10 +113,10 @@ export default function ContactPage() {
             {/* Phone */}
             <a
               href="tel:+917311123555"
-              className="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300"
+              className="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-                <Phone className="w-6 h-6 text-amber-600" />
+              <div className="w-12 h-12 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center shrink-0">
+                <Phone className="w-6 h-6 text-[#E5B85C]" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-slate-500">Call Us</p>
@@ -89,13 +140,13 @@ export default function ContactPage() {
               </div>
             </a>
 
-            {/* Email – fixed overflow */}
+            {/* Email */}
             <a
               href="mailto:contact@pinlawyer.com"
-              className="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300"
+              className="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-                <Mail className="w-6 h-6 text-amber-600" />
+              <div className="w-12 h-12 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center shrink-0">
+                <Mail className="w-6 h-6 text-[#E5B85C]" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-slate-500">Email</p>
@@ -139,7 +190,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Our Office</h2>
             <div className="space-y-4 mb-6">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-amber-500 mt-0.5" />
+                <MapPin className="w-5 h-5 text-[#E5B85C] mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">Delhi Chambers</p>
                   <p className="text-sm text-slate-600">
@@ -150,7 +201,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 text-amber-500 mt-0.5" />
+                <Clock className="w-5 h-5 text-[#E5B85C] mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">Working Hours</p>
                   <p className="text-sm text-slate-600">
@@ -161,7 +212,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Placeholder */}
             <div className="w-full h-64 rounded-2xl bg-slate-200 flex items-center justify-center border border-slate-300">
               <div className="text-center">
                 <MapPin className="w-10 h-10 text-slate-400 mx-auto mb-2" />
@@ -171,7 +221,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right: Contact Form – all fields validated */}
+          {/* Right: Contact Form */}
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Send a Message</h2>
             {formState === 'submitted' ? (
@@ -188,7 +238,6 @@ export default function ContactPage() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Full Name – only letters and spaces */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Full Name *
@@ -198,12 +247,11 @@ export default function ContactPage() {
                     required
                     pattern="[A-Za-z\s]+"
                     title="Only letters and spaces allowed"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
                     placeholder="Your full name"
                   />
                 </div>
 
-                {/* Phone Number – only digits (10–13 digits), optional + at start */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Phone Number *
@@ -215,12 +263,11 @@ export default function ContactPage() {
                     title="Enter a valid phone number (10-13 digits, optional + at start)"
                     maxLength={14}
                     inputMode="numeric"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
                     placeholder="+91 XXXXXXXXXX"
                   />
                 </div>
 
-                {/* Email Address – standard email validation */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Email Address *
@@ -228,12 +275,11 @@ export default function ContactPage() {
                   <input
                     type="email"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
                     placeholder="your@email.com"
                   />
                 </div>
 
-                {/* PIN Code – exactly 6 digits */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Your PIN Code *
@@ -245,19 +291,18 @@ export default function ContactPage() {
                     pattern="\d{6}"
                     maxLength={6}
                     title="Enter exactly 6 digits"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
                     placeholder="e.g. 400001"
                   />
                 </div>
 
-                {/* Case Type – dropdown, required */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Case Type *
                   </label>
                   <select
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition bg-white"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition bg-white"
                   >
                     <option value="">Select case type</option>
                     <option>Litigation (Supreme Court / High Court)</option>
@@ -274,7 +319,6 @@ export default function ContactPage() {
                   </select>
                 </div>
 
-                {/* Brief Description – required */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Brief Description *
@@ -282,14 +326,14 @@ export default function ContactPage() {
                   <textarea
                     required
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
                     placeholder="Tell us about your case in a few sentences..."
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold rounded-lg transition flex items-center justify-center gap-2"
+                  className="w-full px-6 py-3 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition flex items-center justify-center gap-2"
                 >
                   Send Message <Send className="w-4 h-4" />
                 </button>

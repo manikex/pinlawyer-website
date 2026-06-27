@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -35,16 +35,42 @@ const languages = [
   { code: 'ml', name: 'മലയാളം (Malayalam)' },
   { code: 'or', name: 'ଓଡ଼ିଆ (Odia)' },
   { code: 'ur', name: 'اردو (Urdu)' },
+  { code: 'es', name: 'Español (Spanish)' },
+  { code: 'fr', name: 'Français (French)' },
+  { code: 'de', name: 'Deutsch (German)' },
+  { code: 'zh-CN', name: '中文 (Chinese)' },
+  { code: 'ja', name: '日本語 (Japanese)' },
+  { code: 'ko', name: '한국어 (Korean)' },
+  { code: 'pt', name: 'Português (Portuguese)' },
+  { code: 'ar', name: 'العربية (Arabic)' },
+  { code: 'ru', name: 'Русский (Russian)' },
+  { code: 'it', name: 'Italiano (Italian)' },
 ];
 
+// ---------- Language Switcher (right-aligned dropdown) ----------
 function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('en');
   const [mounted, setMounted] = useState(false);
+  const closeTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleMouseEnter = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimer.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 200);
+  };
 
   const switchLanguage = (code: string) => {
     setCurrentLang(code);
@@ -61,7 +87,11 @@ function LanguageSwitcher() {
   if (!mounted) return null;
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 text-slate-300 hover:text-amber-400 transition px-2 py-1 rounded-lg text-sm"
@@ -74,7 +104,10 @@ function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50">
+        <div
+          className="absolute top-full right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50"
+          style={{ right: '0' }}
+        >
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -92,6 +125,7 @@ function LanguageSwitcher() {
   );
 }
 
+// ---------- Mobile Drawer (unchanged) ----------
 function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [mounted, setMounted] = useState(false);
 
@@ -240,9 +274,25 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
   );
 }
 
+// ---------- Main Header ----------
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [practiceOpen, setPracticeOpen] = useState(false);
+  const practiceCloseTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const handlePracticeMouseEnter = () => {
+    if (practiceCloseTimer.current) {
+      clearTimeout(practiceCloseTimer.current);
+      practiceCloseTimer.current = null;
+    }
+    setPracticeOpen(true);
+  };
+
+  const handlePracticeMouseLeave = () => {
+    practiceCloseTimer.current = setTimeout(() => {
+      setPracticeOpen(false);
+    }, 200);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-700">
@@ -260,8 +310,8 @@ export default function Header() {
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => setPracticeOpen(true)}
-                onMouseLeave={() => setPracticeOpen(false)}
+                onMouseEnter={handlePracticeMouseEnter}
+                onMouseLeave={handlePracticeMouseLeave}
               >
                 <button className="flex items-center gap-1 hover:text-amber-400 transition">
                   {link.label} <ChevronDown className="w-4 h-4" />
