@@ -20,14 +20,29 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormState('submitted');
+    const form = e.target as HTMLFormElement;
+    const isValid = form.reportValidity();
+    if (isValid) {
+      setFormState('submitted');
+    }
+  };
+
+  // Remove characters that aren't digits, +, (, ), or spaces
+  const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const input = e.currentTarget;
+    input.value = input.value.replace(/[^\d+\-()\s]/g, '');
+  };
+
+  // Remove non-digit characters from PIN field in real time
+  const handleNumericInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const input = e.currentTarget;
+    input.value = input.value.replace(/\D/g, '');
   };
 
   return (
     <section className="bg-white">
-      {/* Hero – deep teal with abstract lines, only bottom corners gently rounded */}
+      {/* Hero – deep teal with abstract lines, subtle rounded corners */}
       <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
-        {/* Abstract net lines – delicate SVG overlay */}
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
           viewBox="0 0 1200 400"
@@ -35,7 +50,6 @@ export default function ContactPage() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Flowing bezier curves */}
           <path
             d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100"
             stroke="#E5B85C"
@@ -59,7 +73,6 @@ export default function ContactPage() {
             fill="none"
             opacity="0.5"
           />
-          {/* Subtle net mesh */}
           <path
             d="M200 0 L250 400 M500 0 L520 400 M800 0 L790 400 M1100 0 L1080 400"
             stroke="#E5B85C"
@@ -72,7 +85,6 @@ export default function ContactPage() {
             strokeWidth="0.5"
             opacity="0.3"
           />
-          {/* Small decorative circles */}
           <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.7" />
           <circle cx="850" cy="300" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.5" />
           <circle cx="1050" cy="120" r="2.5" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
@@ -108,7 +120,6 @@ export default function ContactPage() {
           transition={{ duration: 0.6 }}
           className="py-12 md:py-16"
         >
-          {/* First row: 3 cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             {/* Phone */}
             <a
@@ -233,11 +244,12 @@ export default function ContactPage() {
                 <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-emerald-800 mb-2">Message Sent!</h3>
                 <p className="text-sm text-emerald-600">
-                  We&apos;ll get back to you within 24 hours.
+                  We&apos;ll get back to you within 77 hours.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {/* Full Name – min 3 letters */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Full Name *
@@ -245,13 +257,15 @@ export default function ContactPage() {
                   <input
                     type="text"
                     required
+                    minLength={3}
                     pattern="[A-Za-z\s]+"
-                    title="Only letters and spaces allowed"
+                    title="Only letters and spaces, minimum 3 characters"
                     className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
-                    placeholder="Your full name"
+                    placeholder="Your full name (min 3 letters)"
                   />
                 </div>
 
+                {/* Phone Number – allows + ( ) and digits */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Phone Number *
@@ -259,15 +273,17 @@ export default function ContactPage() {
                   <input
                     type="tel"
                     required
-                    pattern="^\+?\d{10,13}$"
-                    title="Enter a valid phone number (10-13 digits, optional + at start)"
-                    maxLength={14}
-                    inputMode="numeric"
+                    pattern="^[\d+\-()\s]{7,20}$"
+                    title="Enter a valid phone number with country code, e.g. +44 20 1234 5678 or +1 (555) 123-4567"
+                    maxLength={20}
+                    inputMode="tel"
+                    onInput={handlePhoneInput}
                     className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
-                    placeholder="+91 XXXXXXXXXX"
+                    placeholder="e.g. +91 9876543210 or +1 (555) 123-4567"
                   />
                 </div>
 
+                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Email Address *
@@ -280,6 +296,7 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {/* PIN Code – digits only */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Your PIN Code *
@@ -290,12 +307,14 @@ export default function ContactPage() {
                     required
                     pattern="\d{6}"
                     maxLength={6}
+                    onInput={handleNumericInput}
                     title="Enter exactly 6 digits"
                     className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
-                    placeholder="e.g. 400001"
+                    placeholder="e.g. 800001"
                   />
                 </div>
 
+                {/* Case Type */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Case Type *
@@ -319,16 +338,39 @@ export default function ContactPage() {
                   </select>
                 </div>
 
+                {/* Brief Description – min 5 characters */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Brief Description *
                   </label>
                   <textarea
                     required
+                    minLength={5}
                     rows={4}
                     className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
-                    placeholder="Tell us about your case in a few sentences..."
+                    placeholder="Tell us about your case in a few sentences (min 5 characters)..."
                   ></textarea>
+                </div>
+
+                {/* Mandatory checkbox */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptTerms"
+                    required
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-[#E5B85C] focus:ring-[#E5B85C] cursor-pointer"
+                  />
+                  <label htmlFor="acceptTerms" className="text-sm text-slate-600 cursor-pointer">
+                    I have read and accept the{' '}
+                    <Link href="/disclaimer" className="text-[#E5B85C] hover:underline">
+                      Disclaimer
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy" className="text-[#E5B85C] hover:underline">
+                      Privacy Policy
+                    </Link>{' '}
+                    statement.
+                  </label>
                 </div>
 
                 <button
