@@ -32,7 +32,7 @@ const navLinks = [
       { href: '/party-testimonial', label: 'Party Testimonial' },
     ],
   },
-  { href: '/career', label: 'Career' },
+  { href: '/careers', label: 'Careers' },
   { href: '/contact', label: 'Contact us' },
 ];
 

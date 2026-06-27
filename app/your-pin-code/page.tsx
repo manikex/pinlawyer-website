@@ -6,40 +6,10 @@ import {
   MapPin,
   CheckCircle,
   AlertCircle,
-  ChevronDown,
   Globe,
-  Video,
   FileText,
-  MessageCircle,
+  Video,
 } from 'lucide-react';
-
-const faqs = [
-  {
-    question: 'Do I need to travel to Delhi for my case?',
-    answer:
-      'No. We travel to the relevant court — whether it\'s the Supreme Court in Delhi, a High Court in another state, or a tribunal. You can stay in your city and receive regular updates via WhatsApp, email, or video call.',
-  },
-  {
-    question: 'How does remote legal advisory work?',
-    answer:
-      'We use secure video calls for consultations, encrypted cloud storage for document sharing, and e‑signatures for formalities. You get the same quality of advice as an in‑person meeting — without the commute.',
-  },
-  {
-    question: 'Is PINlawyer really available across all of India?',
-    answer:
-      'Yes. We appear in courts and tribunals across the country. Our chambers are in Delhi, but our practice reaches every state, every High Court, and every district. Enter your PIN code above to confirm — you\'ll see.',
-  },
-  {
-    question: 'What about international clients without an Indian PIN code?',
-    answer:
-      'No PIN code? No problem. We serve clients in the UK, Canada, USA, and Singapore remotely. We schedule calls during your business hours, and all documentation is handled digitally.',
-  },
-  {
-    question: 'How quickly can I speak with a lawyer?',
-    answer:
-      'We aim to respond within 24 hours for regular consultations. For urgent matters, our Urgent Contact service guarantees a connection within 30–40 minutes (available on the Contact page).',
-  },
-];
 
 const services = [
   {
@@ -66,7 +36,6 @@ export default function YourPinCodePage() {
   const [pin, setPin] = useState('');
   const [result, setResult] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [showMessage, setShowMessage] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const validatePin = (code: string) => /^[1-9][0-9]{5}$/.test(code);
 
@@ -83,16 +52,66 @@ export default function YourPinCodePage() {
 
   return (
     <section className="bg-white">
-      {/* Hero with PIN input */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 px-4 md:px-12">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero with PIN input and unique abstract net background */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
+        {/* Abstract net – all sweeping lines now end upward on the right */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20"
+          viewBox="0 0 1200 400"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Main flow lines: from left, curving upward and then rightward, ending high */}
+          <path
+            d="M-50 300 C100 200, 200 80, 400 60 C600 40, 800 80, 1250 50"
+            stroke="#E5B85C"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M-50 350 C150 250, 250 120, 450 90 C650 60, 850 90, 1250 70"
+            stroke="#E5B85C"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            opacity="0.7"
+          />
+          <path
+            d="M-50 250 C50 150, 150 40, 350 30 C550 20, 750 60, 1250 40"
+            stroke="#E5B85C"
+            strokeWidth="1"
+            strokeLinecap="round"
+            opacity="0.5"
+          />
+          {/* Cross-lines creating net effect */}
+          <path
+            d="M100 400 L150 0 M300 400 L320 0 M500 400 L490 0 M700 400 L680 0 M900 400 L870 0 M1100 400 L1080 0"
+            stroke="#E5B85C"
+            strokeWidth="0.6"
+            opacity="0.3"
+          />
+          <path
+            d="M0 80 L1200 60 M0 180 L1200 160 M0 280 L1200 260 M0 380 L1200 360"
+            stroke="#E5B85C"
+            strokeWidth="0.5"
+            opacity="0.3"
+          />
+          {/* Decorative nodes */}
+          <circle cx="200" cy="70" r="2.5" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.7" />
+          <circle cx="600" cy="50" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
+          <circle cx="950" cy="55" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.8" />
+          <circle cx="400" cy="40" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.5" />
+          <circle cx="800" cy="45" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
+        </svg>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
           >
-            Your PIN Code <span className="text-amber-400">&amp; You</span>
+            Your PIN Code <span className="text-[#E5B85C]">&amp; You</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -100,7 +119,7 @@ export default function YourPinCodePage() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-lg text-slate-300 max-w-2xl mx-auto mb-10"
           >
-            Type any Indian PIN code — see instantly how PINlawyer serves your area.
+            Type any Indian PIN code — see instantly how Pin Lawyer serves your area.
             From litigation to advisory, we reach every corner of India.
           </motion.p>
 
@@ -126,12 +145,12 @@ export default function YourPinCodePage() {
                     setResult('idle');
                   }
                 }}
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
               />
             </div>
             <button
               onClick={handleCheck}
-              className="w-full sm:w-auto px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold rounded-lg transition transform hover:scale-105 active:scale-95 whitespace-nowrap"
+              className="w-full sm:w-auto px-6 py-3 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition transform hover:scale-105 active:scale-95 whitespace-nowrap"
             >
               Check Coverage
             </button>
@@ -187,10 +206,10 @@ export default function YourPinCodePage() {
             {services.map((service, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 text-center"
+                className="p-6 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300 text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
-                  <service.icon className="w-7 h-7 text-amber-600" />
+                <div className="w-14 h-14 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center mx-auto mb-4">
+                  <service.icon className="w-7 h-7 text-[#E5B85C]" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">{service.title}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">{service.description}</p>
@@ -199,7 +218,7 @@ export default function YourPinCodePage() {
           </div>
         </motion.div>
 
-        {/* Client Journey Story */}
+        {/* Client Journey Story – with justified paragraphs and updated card heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -211,76 +230,35 @@ export default function YourPinCodePage() {
             A Real Client Journey
           </h2>
           <div className="max-w-3xl mx-auto mt-8 p-8 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="flex items-center gap-2 text-amber-600 font-medium mb-4">
+            {/* Heading colour changed to deep navy (early website blue) */}
+            <div className="flex items-center gap-2 text-[#0F1D3A] font-semibold mb-4">
               <MapPin className="w-5 h-5" />
               PIN — 803110 (a village in Bihar)
             </div>
+            {/* Hyperlink to Supreme Court order added */}
+            <a
+              href="https://api.sci.gov.in/supremecourt/2025/45011/45011_2025_15_31_64091_Order_08-Sep-2025.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mb-4 text-sm text-blue-600 hover:text-blue-800 underline font-medium"
+            >
+              View Supreme Court Order (PDF)
+            </a>
             <blockquote className="text-slate-600 leading-relaxed">
-              <p className="mb-4">
+              <p className="mb-4 text-justify">
                 &ldquo;Our client from a small village in Bihar needed to file a case in the Supreme Court
                 of India, New Delhi — but had never travelled outside the state. We handled everything.
               </p>
-              <p className="mb-4">
+              <p className="mb-4 text-justify">
                 We drafted the Special Leave Petition, coordinated all documents remotely, and appeared
-                before the Court. The 576 days of delay in filing were condoned. The case was admitted.
+                before the Court. The 576 (Five Hundred Seventy Six) days of delay in filing were condoned. The case was admitted.
               </p>
-              <p>
+              <p className="text-justify">
                 The client never stepped out of their village. Every update came through WhatsApp.
                 Every document was shared over email. Justice was delivered — without travel, without
                 disruption, and at a fraction of the expected cost.&rdquo;
               </p>
             </blockquote>
-          </div>
-        </motion.div>
-
-        {/* FAQ */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="py-16 md:py-20 border-t border-slate-200"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-slate-600 text-center mb-10">
-            Everything you need to know about remote legal services.
-          </p>
-          <div className="max-w-3xl mx-auto">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="border border-slate-200 rounded-2xl mb-3 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-amber-50 transition-colors"
-                >
-                  <span className="font-medium text-slate-900">{faq.question}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${
-                      openFaq === idx ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <AnimatePresence>
-                  {openFaq === idx && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-5 pb-5 text-slate-600 leading-relaxed">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
           </div>
         </motion.div>
 
