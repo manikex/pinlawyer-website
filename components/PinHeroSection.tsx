@@ -24,9 +24,10 @@ export default function PinHeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#031a1a] via-[#041f1f] to-[#031a1a] text-white py-20 px-4 md:px-12">
-      {/* Abstract lines – strictly on the left half */}
+      {/* Abstract lines – left half on desktop, top half on mobile */}
       <svg
-        className="absolute left-0 top-0 bottom-0 w-1/2 h-full opacity-10 pointer-events-none"
+        className="absolute left-0 top-0 w-1/2 h-full opacity-10 pointer-events-none
+                   max-lg:w-full max-lg:h-1/2"
         viewBox="0 0 600 400"
         preserveAspectRatio="none"
         fill="none"

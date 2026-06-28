@@ -1,14 +1,62 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Briefcase, GraduationCap } from 'lucide-react';
+import { ChevronDown, Briefcase, GraduationCap, X } from 'lucide-react';
 
 export default function CareersPage() {
   const [openPanel, setOpenPanel] = useState<string | null>(null);
 
   const toggle = (panel: string) => {
     setOpenPanel((prev) => (prev === panel ? null : panel));
+  };
+
+  // ---------- Advocate & Associates form state ----------
+  const [advFile, setAdvFile] = useState<File | null>(null);
+  const advFileRef = useRef<HTMLInputElement>(null);
+  const [advUrl, setAdvUrl] = useState('');
+
+  const handleAdvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setAdvFile(e.target.files[0]);
+      setAdvUrl(''); // clear URL
+    }
+  };
+
+  const removeAdvFile = () => {
+    setAdvFile(null);
+    if (advFileRef.current) advFileRef.current.value = '';
+  };
+
+  const handleAdvUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAdvUrl(e.target.value);
+    if (e.target.value) {
+      removeAdvFile(); // clear file
+    }
+  };
+
+  // ---------- Intern / Researcher form state ----------
+  const [internFile, setInternFile] = useState<File | null>(null);
+  const internFileRef = useRef<HTMLInputElement>(null);
+  const [internUrl, setInternUrl] = useState('');
+
+  const handleInternFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setInternFile(e.target.files[0]);
+      setInternUrl('');
+    }
+  };
+
+  const removeInternFile = () => {
+    setInternFile(null);
+    if (internFileRef.current) internFileRef.current.value = '';
+  };
+
+  const handleInternUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInternUrl(e.target.value);
+    if (e.target.value) {
+      removeInternFile();
+    }
   };
 
   return (
@@ -51,7 +99,7 @@ export default function CareersPage() {
 
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-16 md:py-20">
         <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-          We keep Rolling vacancy, and so, we are always looking for passionate advocates, legal researchers, and law students who share our vision.
+          We are always looking for passionate advocates, legal researchers, and law students who share our vision.
         </p>
 
         {/* Panel 1: Advocate & Associates */}
@@ -85,7 +133,7 @@ export default function CareersPage() {
                   <p className="text-slate-600 mb-4 text-sm">
                     We are looking for advocates and associates with 0–5 years of experience to join our litigation and advisory teams.
                   </p>
-                  <form className="space-y-4" noValidate>
+                  <form className="space-y-4" noValidate onSubmit={(e) => e.preventDefault()}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <input type="text" required placeholder="Full Name *" className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
                       <input type="email" required placeholder="Email Address *" className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
@@ -98,10 +146,53 @@ export default function CareersPage() {
                       <label className="block text-sm font-medium text-slate-700 mb-1">Cover Note *</label>
                       <textarea rows={3} required placeholder="Tell us why you want to join Pin Lawyer..." className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
                     </div>
+
+                    {/* CV / Resume – single choice */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Upload CV / Resume (PDF, max 2 MB) *</label>
-                      <input type="file" required accept=".pdf" className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E5B85C]/20 file:text-[#E5B85C] hover:file:bg-[#E5B85C]/30 transition cursor-pointer" />
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        CV / Resume – Choose one option *
+                      </label>
+
+                      {/* PDF Upload */}
+                      <div className="mb-3">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="file"
+                            accept=".pdf"
+                            ref={advFileRef}
+                            onChange={handleAdvFileChange}
+                            disabled={!!advUrl}
+                            className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E5B85C]/20 file:text-[#E5B85C] hover:file:bg-[#E5B85C]/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                          />
+                          {advFile && (
+                            <button
+                              type="button"
+                              onClick={removeAdvFile}
+                              className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 shrink-0"
+                            >
+                              <X className="w-4 h-4" /> Remove
+                            </button>
+                          )}
+                        </div>
+                        {advFile && (
+                          <p className="text-xs text-slate-500 mt-1">Selected: {advFile.name}</p>
+                        )}
+                      </div>
+
+                      {/* OR divider */}
+                      <p className="text-xs text-slate-400 text-center mb-3">— OR —</p>
+
+                      {/* Website Link */}
+                      <input
+                        type="url"
+                        placeholder="https://linkedin.com/in/yourprofile"
+                        value={advUrl}
+                        onChange={handleAdvUrlChange}
+                        disabled={!!advFile}
+                        className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      />
                     </div>
+
                     <button type="submit" className="px-6 py-3 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition">
                       Submit Application
                     </button>
@@ -143,7 +234,7 @@ export default function CareersPage() {
                   <p className="text-slate-600 mb-4 text-sm">
                     We offer internships and research positions for law students and recent graduates. Work on real cases, drafts, and legal research.
                   </p>
-                  <form className="space-y-4" noValidate>
+                  <form className="space-y-4" noValidate onSubmit={(e) => e.preventDefault()}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <input type="text" required placeholder="Full Name *" className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
                       <input type="email" required placeholder="Email Address *" className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
@@ -166,7 +257,7 @@ export default function CareersPage() {
                     <div>
                       <select required className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm bg-white">
                         <option value="">I am applying as *</option>
-                        <option>Legal Researcher</option>
+                        <option>Legal Researcher (Hybrid / Remote)</option>
                         <option>Law Student (Intern)</option>
                       </select>
                     </div>
@@ -174,10 +265,50 @@ export default function CareersPage() {
                       <label className="block text-sm font-medium text-slate-700 mb-1">Why do you want to intern with us? *</label>
                       <textarea rows={3} required placeholder="Share your motivation..." className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
                     </div>
+
+                    {/* CV / Resume – single choice */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Upload CV / Resume (PDF, max 2 MB) *</label>
-                      <input type="file" required accept=".pdf" className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E5B85C]/20 file:text-[#E5B85C] hover:file:bg-[#E5B85C]/30 transition cursor-pointer" />
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        CV / Resume – Choose one option *
+                      </label>
+
+                      <div className="mb-3">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="file"
+                            accept=".pdf"
+                            ref={internFileRef}
+                            onChange={handleInternFileChange}
+                            disabled={!!internUrl}
+                            className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E5B85C]/20 file:text-[#E5B85C] hover:file:bg-[#E5B85C]/30 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                          />
+                          {internFile && (
+                            <button
+                              type="button"
+                              onClick={removeInternFile}
+                              className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 shrink-0"
+                            >
+                              <X className="w-4 h-4" /> Remove
+                            </button>
+                          )}
+                        </div>
+                        {internFile && (
+                          <p className="text-xs text-slate-500 mt-1">Selected: {internFile.name}</p>
+                        )}
+                      </div>
+
+                      <p className="text-xs text-slate-400 text-center mb-3">— OR —</p>
+
+                      <input
+                        type="url"
+                        placeholder="https://linkedin.com/in/yourprofile"
+                        value={internUrl}
+                        onChange={handleInternUrlChange}
+                        disabled={!!internFile}
+                        className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      />
                     </div>
+
                     <button type="submit" className="px-6 py-3 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition">
                       Submit Application
                     </button>

@@ -28,6 +28,8 @@ const navLinks = [
     children: [
       { href: '/law-library', label: 'Law Library' },
       { href: '/pro-bono', label: "Pro Bono's" },
+      { href: '/help-center', label: 'Help Center' },
+      { href: '/work-process', label: 'Features' },
       { href: '/faq', label: 'FAQs' },
       { href: '/party-testimonial', label: 'Party Testimonial' },
     ],
@@ -185,7 +187,10 @@ export default function Header() {
 
         <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
           {navLinks.map((link) => {
-            const dropdownWidth = link.label === 'Resources' ? 'w-41' : (link.label === 'Practice Areas' ? 'w-86' : 'w-86');
+            const dropdownWidth =
+              link.label === 'Resources' ? 'w-41' :
+              link.label === 'Practice Areas' ? 'w-86' :
+              'w-32';
             return link.children ? (
               <div
                 key={link.label}
@@ -217,18 +222,15 @@ export default function Header() {
               </Link>
             );
           })}
-          {/* Book a Call button before Language */}
+          <LanguageSwitcher />
           <Link
             href="/contact/urgent"
             className="ml-2 px-4 py-2 bg-[#E5B85C] text-[#072828] rounded-lg font-semibold hover:bg-[#d4a843] transition flex items-center gap-1"
           >
             <Phone className="w-4 h-4" /> Book a Call
           </Link>
-          {/* Language Switcher – extreme right */}
-          <LanguageSwitcher />
         </nav>
 
-        {/* Mobile actions (unchanged order: Language, Call, Hamburger) */}
         <div className="flex items-center gap-2 lg:hidden">
           <LanguageSwitcher />
           <Link href="/contact/urgent" className="p-2 text-white hover:text-[#E5B85C] transition" aria-label="Book a Call">

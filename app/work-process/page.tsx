@@ -100,22 +100,37 @@ const technologies = [
 export default function WorkProcessPage() {
   return (
     <section className="bg-white">
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 px-4 md:px-12">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero – navy background with abstract spiral lines, reduced height */}
+      <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white pt-12 pb-16 px-4 md:px-12 overflow-hidden">
+        {/* Abstract net lines – delicate SVG overlay (same as Contact page) */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-15"
+          viewBox="0 0 1200 400"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100" stroke="#E5B85C" strokeWidth="1.5" />
+          <path d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150" stroke="#E5B85C" strokeWidth="1" opacity="0.6" />
+          <path d="M-100 150 C150 300, 350 50, 550 250 C750 450, 950 200, 1300 250" stroke="#E5B85C" strokeWidth="1.2" opacity="0.5" />
+          <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" opacity="0.7" />
+          <circle cx="850" cy="300" r="3" stroke="#E5B85C" strokeWidth="0.8" opacity="0.5" />
+        </svg>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
           >
-            Work Process <span className="text-amber-400">&amp; Fees</span>
+            Work Process <span className="text-[#E5B85C]">&amp; Fees</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-lg text-slate-300 max-w-2xl mx-auto"
+            className="text-lg text-slate-300 max-w-3xl mx-auto"
           >
             Transparent, predictable, and economical. Here&apos;s exactly how we engage, what we charge,
             and the technology we use to serve you — wherever your PIN code may be.
@@ -133,7 +148,7 @@ export default function WorkProcessPage() {
           className="py-16 md:py-20"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-            The PINlawyer Engagement Model
+            The Pin Lawyer Engagement Model
           </h2>
           <p className="text-slate-600 text-center mb-12 max-w-xl mx-auto">
             Three simple steps from your first call to a resolved matter.
@@ -143,22 +158,20 @@ export default function WorkProcessPage() {
             {steps.map((step, idx) => (
               <div
                 key={idx}
-                className="flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300"
+                className="flex flex-col md:flex-row gap-6 p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300"
               >
-                {/* Step number and icon */}
                 <div className="flex items-start gap-4 md:w-1/3">
-                  <div className="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-                    <step.icon className="w-7 h-7 text-amber-600" />
+                  <div className="w-14 h-14 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center shrink-0">
+                    <step.icon className="w-7 h-7 text-[#E5B85C]" />
                   </div>
                   <div>
-                    <span className="text-amber-500 font-bold text-sm">{step.number}</span>
+                    <span className="text-[#E5B85C] font-bold text-sm">{step.number}</span>
                     <h3 className="text-xl font-semibold text-slate-900 mt-1">{step.title}</h3>
                   </div>
                 </div>
-                {/* Description */}
                 <div className="md:w-2/3">
-                  <p className="text-slate-600 leading-relaxed mb-3">{step.description}</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">{step.detail}</p>
+                  <p className="text-slate-600 leading-relaxed mb-3 text-justify">{step.description}</p>
+                  <p className="text-sm text-slate-500 leading-relaxed text-justify">{step.detail}</p>
                 </div>
               </div>
             ))}
@@ -181,7 +194,7 @@ export default function WorkProcessPage() {
             conversation about costs — so you always know what to expect.
           </p>
           <div className="text-center mb-10">
-            <span className="inline-block px-4 py-2 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
+            <span className="inline-block px-4 py-2 bg-[#E5B85C]/20 text-[#E5B85C] rounded-full text-sm font-medium">
               All fee arrangements comply with Bar Council of India regulations
             </span>
           </div>
@@ -190,19 +203,19 @@ export default function WorkProcessPage() {
             {feeModels.map((model, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl border border-slate-200 hover:border-amber-400 transition-colors"
+                className="p-6 rounded-2xl border border-slate-200 hover:border-[#E5B85C] transition-colors"
               >
-                <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center mb-4">
-                  <model.icon className="w-6 h-6 text-amber-600" />
+                <div className="w-12 h-12 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center mb-4">
+                  <model.icon className="w-6 h-6 text-[#E5B85C]" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">{model.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{model.description}</p>
+                <p className="text-sm text-slate-600 leading-relaxed text-justify">{model.description}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-8 p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-            <p className="text-slate-600">
+            <p className="text-slate-600 text-justify">
               <strong>Note:</strong> We offer an initial consultation where we listen to your matter
               and provide an honest preliminary opinion. Contact us to discuss fee arrangements
               tailored to your specific case.
@@ -210,7 +223,7 @@ export default function WorkProcessPage() {
           </div>
         </motion.div>
 
-        {/* Technology We Use */}
+        {/* Technology We Use – centred description text */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -228,13 +241,13 @@ export default function WorkProcessPage() {
             {technologies.map((tech, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl border border-slate-200 hover:border-amber-400 text-center transition-colors"
+                className="p-6 rounded-2xl border border-slate-200 hover:border-[#E5B85C] text-center transition-colors"
               >
-                <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
-                  <tech.icon className="w-6 h-6 text-amber-600" />
+                <div className="w-12 h-12 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center mx-auto mb-4">
+                  <tech.icon className="w-6 h-6 text-[#E5B85C]" />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2">{tech.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{tech.desc}</p>
+                <p className="text-sm text-slate-600 leading-relaxed text-center">{tech.desc}</p>
               </div>
             ))}
           </div>
@@ -253,10 +266,10 @@ export default function WorkProcessPage() {
           </h2>
           <div className="max-w-3xl mx-auto mt-8 space-y-6">
             <div className="flex items-start gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200">
-              <Shield className="w-6 h-6 text-amber-600 shrink-0 mt-1" />
+              <Shield className="w-6 h-6 text-[#E5B85C] shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-slate-900 mb-2">Attorney‑Client Confidentiality</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed text-justify">
                   Every communication — verbal or written — is protected by attorney‑client privilege.
                   Your documents, your case details, and your identity remain strictly confidential.
                   We never share information without your express consent.
@@ -264,10 +277,10 @@ export default function WorkProcessPage() {
               </div>
             </div>
             <div className="flex items-start gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200">
-              <FileText className="w-6 h-6 text-amber-600 shrink-0 mt-1" />
+              <FileText className="w-6 h-6 text-[#E5B85C] shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-slate-900 mb-2">Engagement & Retainer Letter</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed text-justify">
                   Every client receives a formal engagement letter that spells out: scope of work,
                   fee arrangement, timelines, and responsibilities of both sides. For retainer clients,
                   the letter also defines the services covered and any exclusions. Nothing is left to
@@ -276,10 +289,10 @@ export default function WorkProcessPage() {
               </div>
             </div>
             <div className="flex items-start gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200">
-              <Lock className="w-6 h-6 text-amber-600 shrink-0 mt-1" />
+              <Lock className="w-6 h-6 text-[#E5B85C] shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-slate-900 mb-2">Data Protection</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed text-justify">
                   We store all client data on encrypted servers with access limited to the handling
                   team. Digital communication channels are secured. Physical files, where maintained,
                   are kept in access‑controlled storage.
@@ -305,7 +318,7 @@ export default function WorkProcessPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold rounded-lg transition"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition"
           >
             Get in Touch <ArrowRight className="w-4 h-4" />
           </Link>
