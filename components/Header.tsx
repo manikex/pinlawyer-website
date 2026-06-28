@@ -41,6 +41,7 @@ const navLinks = [
 const languages = [
   { code: 'en', name: 'English' },
   { code: 'hi', name: 'हिन्दी (Hindi)' },
+  { code: 'sa', name: 'संस्कृतम् (Sanskrit)' },
   { code: 'te', name: 'తెలుగు (Telugu)' },
   { code: 'ta', name: 'தமிழ் (Tamil)' },
   { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
@@ -50,6 +51,8 @@ const languages = [
   { code: 'mr', name: 'मराठी (Marathi)' },
   { code: 'ml', name: 'മലയാളം (Malayalam)' },
   { code: 'or', name: 'ଓଡ଼ିଆ (Odia)' },
+  { code: 'as', name: 'অসমীয়া (Assamese)' },
+  { code: 'sd', name: 'सिन्धी (Sindhi)' },
   { code: 'ur', name: 'اردو (Urdu)' },
   { code: 'es', name: 'Español (Spanish)' },
   { code: 'fr', name: 'Français (French)' },

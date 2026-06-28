@@ -7,9 +7,8 @@ import Link from 'next/link';
 export default function AboutPage() {
   return (
     <section className="bg-white">
-      {/* Hero Banner – deep teal, abstract lines, rounded bottom corners */}
-      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
-        {/* Abstract net lines – delicate SVG overlay (same as Contact page) */}
+      {/* Hero Banner – reduced height */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
           viewBox="0 0 1200 400"
@@ -17,24 +16,9 @@ export default function AboutPage() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100"
-            stroke="#E5B85C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150"
-            stroke="#E5B85C"
-            strokeWidth="1"
-            opacity="0.6"
-          />
-          <path
-            d="M-100 150 C150 300, 350 50, 550 250 C750 450, 950 200, 1300 250"
-            stroke="#E5B85C"
-            strokeWidth="1.2"
-            opacity="0.5"
-          />
+          <path d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100" stroke="#E5B85C" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150" stroke="#E5B85C" strokeWidth="1" opacity="0.6" />
+          <path d="M-100 150 C150 300, 350 50, 550 250 C750 450, 950 200, 1300 250" stroke="#E5B85C" strokeWidth="1.2" opacity="0.5" />
           <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" opacity="0.7" />
           <circle cx="850" cy="300" r="3" stroke="#E5B85C" strokeWidth="0.8" opacity="0.5" />
         </svg>
@@ -106,7 +90,6 @@ export default function AboutPage() {
             Lead Advocate
           </h2>
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            {/* Placeholder photo */}
             <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl bg-[#072828] flex items-center justify-center shrink-0 border-2 border-[#E5B85C]/30">
               <Users className="w-16 h-16 text-[#E5B85C]" />
             </div>

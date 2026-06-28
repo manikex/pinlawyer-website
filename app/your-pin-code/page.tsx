@@ -52,9 +52,8 @@ export default function YourPinCodePage() {
 
   return (
     <section className="bg-white">
-      {/* Hero with PIN input and unique abstract net background */}
-      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
-        {/* Abstract net – all sweeping lines now end upward on the right */}
+      {/* Hero with PIN input – reduced height */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
           viewBox="0 0 1200 400"
@@ -62,46 +61,12 @@ export default function YourPinCodePage() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Main flow lines: from left, curving upward and then rightward, ending high */}
-          <path
-            d="M-50 300 C100 200, 200 80, 400 60 C600 40, 800 80, 1250 50"
-            stroke="#E5B85C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M-50 350 C150 250, 250 120, 450 90 C650 60, 850 90, 1250 70"
-            stroke="#E5B85C"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            opacity="0.7"
-          />
-          <path
-            d="M-50 250 C50 150, 150 40, 350 30 C550 20, 750 60, 1250 40"
-            stroke="#E5B85C"
-            strokeWidth="1"
-            strokeLinecap="round"
-            opacity="0.5"
-          />
-          {/* Cross-lines creating net effect */}
-          <path
-            d="M100 400 L150 0 M300 400 L320 0 M500 400 L490 0 M700 400 L680 0 M900 400 L870 0 M1100 400 L1080 0"
-            stroke="#E5B85C"
-            strokeWidth="0.6"
-            opacity="0.3"
-          />
-          <path
-            d="M0 80 L1200 60 M0 180 L1200 160 M0 280 L1200 260 M0 380 L1200 360"
-            stroke="#E5B85C"
-            strokeWidth="0.5"
-            opacity="0.3"
-          />
-          {/* Decorative nodes */}
+          <path d="M-50 300 C100 200, 200 80, 400 60 C600 40, 800 80, 1250 50" stroke="#E5B85C" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M-50 350 C150 250, 250 120, 450 90 C650 60, 850 90, 1250 70" stroke="#E5B85C" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
+          <path d="M-50 250 C50 150, 150 40, 350 30 C550 20, 750 60, 1250 40" stroke="#E5B85C" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+          <path d="M100 400 L150 0 M300 400 L320 0 M500 400 L490 0 M700 400 L680 0 M900 400 L870 0 M1100 400 L1080 0" stroke="#E5B85C" strokeWidth="0.6" opacity="0.3" />
           <circle cx="200" cy="70" r="2.5" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.7" />
           <circle cx="600" cy="50" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
-          <circle cx="950" cy="55" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.8" />
-          <circle cx="400" cy="40" r="2" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.5" />
-          <circle cx="800" cy="45" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
         </svg>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -218,7 +183,7 @@ export default function YourPinCodePage() {
           </div>
         </motion.div>
 
-        {/* Client Journey Story – with justified paragraphs and updated card heading */}
+        {/* Client Journey Story – with justified paragraphs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -230,12 +195,10 @@ export default function YourPinCodePage() {
             A Real Client Journey
           </h2>
           <div className="max-w-3xl mx-auto mt-8 p-8 rounded-2xl bg-slate-50 border border-slate-200">
-            {/* Heading colour changed to deep navy (early website blue) */}
             <div className="flex items-center gap-2 text-[#0F1D3A] font-semibold mb-4">
               <MapPin className="w-5 h-5" />
               PIN — 803110 (a village in Bihar)
             </div>
-            {/* Hyperlink to Supreme Court order added */}
             <a
               href="https://api.sci.gov.in/supremecourt/2025/45011/45011_2025_15_31_64091_Order_08-Sep-2025.pdf"
               target="_blank"
@@ -251,7 +214,7 @@ export default function YourPinCodePage() {
               </p>
               <p className="mb-4 text-justify">
                 We drafted the Special Leave Petition, coordinated all documents remotely, and appeared
-                before the Court. The 576 (Five Hundred Seventy Six) days of delay in filing were condoned. The case was admitted.
+                before the Court. The 576 days of delay in filing were condoned. The case was admitted.
               </p>
               <p className="text-justify">
                 The client never stepped out of their village. Every update came through WhatsApp.

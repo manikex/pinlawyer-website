@@ -19,7 +19,7 @@ export default function CareersPage() {
   const handleAdvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setAdvFile(e.target.files[0]);
-      setAdvUrl(''); // clear URL
+      setAdvUrl('');
     }
   };
 
@@ -31,7 +31,7 @@ export default function CareersPage() {
   const handleAdvUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAdvUrl(e.target.value);
     if (e.target.value) {
-      removeAdvFile(); // clear file
+      removeAdvFile();
     }
   };
 
@@ -61,8 +61,8 @@ export default function CareersPage() {
 
   return (
     <section className="bg-white">
-      {/* Hero – deep teal with abstract lines */}
-      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
+      {/* Hero – reduced height */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
           viewBox="0 0 1200 400"
@@ -153,7 +153,6 @@ export default function CareersPage() {
                         CV / Resume – Choose one option *
                       </label>
 
-                      {/* PDF Upload */}
                       <div className="mb-3">
                         <div className="flex items-center gap-2">
                           <input
@@ -179,10 +178,8 @@ export default function CareersPage() {
                         )}
                       </div>
 
-                      {/* OR divider */}
                       <p className="text-xs text-slate-400 text-center mb-3">— OR —</p>
 
-                      {/* Website Link */}
                       <input
                         type="url"
                         placeholder="https://linkedin.com/in/yourprofile"
@@ -265,8 +262,6 @@ export default function CareersPage() {
                       <label className="block text-sm font-medium text-slate-700 mb-1">Why do you want to intern with us? *</label>
                       <textarea rows={3} required placeholder="Share your motivation..." className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition text-sm" />
                     </div>
-
-                    {/* CV / Resume – single choice */}
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
                         CV / Resume – Choose one option *

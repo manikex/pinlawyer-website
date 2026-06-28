@@ -62,24 +62,52 @@ export default function ContactPage() {
 
   return (
     <section className="bg-white">
-      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-20 pb-28 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
-        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1200 400" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Hero – reduced height */}
+      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20"
+          viewBox="0 0 1200 400"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100" stroke="#E5B85C" strokeWidth="1.5" />
           <path d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150" stroke="#E5B85C" strokeWidth="1" opacity="0.6" />
+          <path d="M-100 150 C150 300, 350 50, 550 250 C750 450, 950 200, 1300 250" stroke="#E5B85C" strokeWidth="1.2" opacity="0.5" />
           <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" opacity="0.7" />
+          <circle cx="850" cy="300" r="3" stroke="#E5B85C" strokeWidth="0.8" opacity="0.5" />
         </svg>
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
+          >
             Contact <span className="text-[#E5B85C]">Pin Lawyer</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6 }} className="text-lg text-slate-300 max-w-2xl mx-auto">
-            Reach us however you prefer — call, WhatsApp, email, or fill the form below. We&apos;re available at your PIN code.
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-lg text-slate-300 max-w-2xl mx-auto"
+          >
+            Reach us however you prefer — call, WhatsApp, email, or fill the form below.
+            We&apos;re available at your PIN code.
           </motion.p>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 md:px-12">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="py-12 md:py-16">
+        {/* Quick Contact Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="py-12 md:py-16"
+        >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <a href="tel:+917311123555" className="flex items-center gap-4 p-5 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center shrink-0"><Phone className="w-6 h-6 text-[#E5B85C]" /></div>
@@ -105,7 +133,14 @@ export default function ContactPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="py-12 md:py-16 border-t border-slate-200 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* Main Contact Section: Map + Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="py-12 md:py-16 border-t border-slate-200 grid grid-cols-1 lg:grid-cols-2 gap-10"
+        >
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Our Office</h2>
             <div className="space-y-4 mb-6">
@@ -141,6 +176,7 @@ export default function ContactPage() {
           </div>
         </motion.div>
 
+        {/* Floating WhatsApp Button */}
         <a href="https://wa.me/917311123555?text=Hello%20Pin%20Lawyer%2C%20I%20need%20legal%20assistance" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center transition transform hover:scale-110" aria-label="Chat on WhatsApp"><MessageCircle className="w-7 h-7" /></a>
       </div>
     </section>
