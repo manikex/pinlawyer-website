@@ -225,15 +225,18 @@ export default function Header() {
               </Link>
             );
           })}
-          <LanguageSwitcher />
+          {/* Book a Call button – now before the language switcher */}
           <Link
             href="/contact/urgent"
             className="ml-2 px-4 py-2 bg-[#E5B85C] text-[#072828] rounded-lg font-semibold hover:bg-[#d4a843] transition flex items-center gap-1"
           >
             <Phone className="w-4 h-4" /> Book a Call
           </Link>
+          {/* Language Switcher – extreme right */}
+          <LanguageSwitcher />
         </nav>
 
+        {/* Mobile actions (unchanged order: Language, Call, Hamburger) */}
         <div className="flex items-center gap-2 lg:hidden">
           <LanguageSwitcher />
           <Link href="/contact/urgent" className="p-2 text-white hover:text-[#E5B85C] transition" aria-label="Book a Call">

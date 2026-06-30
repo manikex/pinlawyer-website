@@ -5,6 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#072828] border-t border-[#0A2A2A] text-slate-400 text-sm">
       <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Column 1 – Brand */}
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2 text-white font-bold text-lg">
             <MapPin className="w-5 h-5 text-[#E5B85C]" />
@@ -13,22 +14,30 @@ export default function Footer() {
           <p className="mt-2 text-xs">A lawyer at your PIN code. Practicing across Supreme Court, High Courts, NCLT, and more.</p>
         </div>
 
+        {/* Column 2 – Quick Links */}
         <div>
           <h4 className="text-white font-semibold mb-2">Quick Links</h4>
           <ul className="space-y-1">
             <li><Link href="/about" className="hover:text-[#E5B85C] transition">About</Link></li>
             <li><Link href="/practice-areas/litigation" className="hover:text-[#E5B85C] transition">Litigation</Link></li>
+            <li><Link href="/practice-areas/international-business" className="hover:text-[#E5B85C] transition">Company Advisory</Link></li>
             <li><Link href="/law-library" className="hover:text-[#E5B85C] transition">Law Library</Link></li>
-            <li><Link href="/contact" className="hover:text-[#E5B85C] transition">Contact</Link></li>
           </ul>
         </div>
 
+        {/* Column 3 – Help (updated email) */}
         <div>
-          <h4 className="text-white font-semibold mb-2">Contact</h4>
-          <p>Delhi, India</p>
-          <p>contact@pinlawyer.com</p>
+          <h4 className="text-white font-semibold mb-2">Help</h4>
+          <ul className="space-y-1">
+            <li><Link href="/contact" className="hover:text-[#E5B85C] transition">Contact</Link></li>
+          </ul>
+          <div className="mt-3 space-y-0.5">
+            <p>Delhi, India</p>
+            <p>support@pinlawyer.com</p>
+          </div>
         </div>
 
+        {/* Column 4 – Legal */}
         <div>
           <h4 className="text-white font-semibold mb-2">Legal</h4>
           <ul className="space-y-1">
