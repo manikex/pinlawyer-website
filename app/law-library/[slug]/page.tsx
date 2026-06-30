@@ -20,7 +20,7 @@ export default async function BlogPostPage({
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
     html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/gs, '<ul class="list-disc ml-6 mb-4 space-y-1 text-slate-600 text-justify">$1</ul>');
+    html = html.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul class="list-disc ml-6 mb-4 space-y-1 text-slate-600 text-justify">$1</ul>');
     html = html.replace(/\n\n/g, '</p><p class="text-slate-600 leading-relaxed mb-4 text-justify">');
     html = '<p class="text-slate-600 leading-relaxed mb-4 text-justify">' + html + '</p>';
     html = html.replace(/<p class="text-slate-600 leading-relaxed mb-4 text-justify"><\/p>/g, '');

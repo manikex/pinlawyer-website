@@ -47,9 +47,9 @@ export function getAllPosts(): BlogPost[] {
         author: getField('author') || undefined,
         pinRegion: getField('pinRegion') || undefined,
         content: body,
-      };
+      } as BlogPost;
     })
-    .filter((post): post is BlogPost => post !== null && post.title !== '');
+    .filter((post): post is BlogPost => post !== null && Boolean(post.title));
 
   // Sort newest first
   return posts.sort((a, b) => (a.date < b.date ? 1 : -1));

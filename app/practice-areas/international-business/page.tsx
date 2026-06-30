@@ -161,7 +161,7 @@ export default function InternationalBusinessPage() {
     <section className="py-20 px-4 md:px-12 bg-white min-h-screen">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Company Law & International Business Advisory
+          Company Services and International Business Advisory
         </h1>
         <p className="text-lg text-slate-600 mb-12">
           From incorporating your company in India to managing cross‑border operations — we provide

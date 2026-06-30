@@ -1,30 +1,37 @@
 import Link from 'next/link';
-import { Scale, Building2, Gavel, Globe } from 'lucide-react';
+import { Scale, Building2, Gavel, Globe, Car } from 'lucide-react';
 
 const areas = [
   {
-    title: 'Litigation & Dispute Resolution (India)',
+    title: 'Litigation & Mediation (Bharat - India)',
     description:
       'Representation before the Supreme Court, all State High Courts, NCDRC, Consumer Forums, CAT, and more.',
     icon: Scale,
     href: '/practice-areas/litigation',
   },
   {
-    title: 'Corporate Litigation & RERA',
+    title: 'Tort, Motor Vehicles and Insurance',
     description:
-      'Commercial court litigation, NCLT/NCLAT, contract disputes, real estate RERA matters.',
-    icon: Building2,
-    href: '/practice-areas/corporate-litigation-rera',
+      'Motor vehicle accidents, tort law (dog bites, nuisance, negligence), and insurance disputes.',
+    icon: Car,
+    href: '/practice-areas/tort-motor-vehicles-insurance',
   },
   {
-    title: 'Arbitration & ADR',
+    title: 'ADR - Arbitration and Negotiation',
     description:
       'Domestic and international commercial arbitration, mediation, and enforcement of foreign awards.',
     icon: Gavel,
     href: '/practice-areas/arbitration-adr',
   },
   {
-    title: 'Company Law & International Business Advisory',
+    title: 'Corporate Litigation and Real Estate (RERA)',
+    description:
+      'Commercial court litigation, NCLT/NCLAT, contract disputes, real estate RERA matters.',
+    icon: Building2,
+    href: '/practice-areas/corporate-litigation-rera',
+  },
+  {
+    title: 'Company Services and International Business Advisory',
     description:
       'Incorporation, compliance, cross‑border contracts – serving UK, Canada, USA, Singapore remotely.',
     icon: Globe,

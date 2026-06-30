@@ -74,7 +74,7 @@ export default function CorporateLitigationReraPage() {
     <section className="py-20 px-4 md:px-12 bg-white min-h-screen">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Corporate Litigation & RERA
+          Corporate Litigation and Real Estate (RERA)
         </h1>
         <p className="text-lg text-slate-600 mb-12">
           Resolving corporate disputes and real estate matters with sharp litigation strategy. 

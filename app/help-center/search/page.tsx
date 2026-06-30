@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, Search } from 'lucide-react';
@@ -12,7 +12,7 @@ interface SearchResult {
   category: string;
 }
 
-export default function SearchResultsPage() {
+function SearchResultsContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -86,5 +86,13 @@ export default function SearchResultsPage() {
         )}
       </div>
     </section>
+  );
+}
+
+export default function SearchResultsPage() {
+  return (
+    <Suspense fallback={null}>
+      <SearchResultsContent />
+    </Suspense>
   );
 }

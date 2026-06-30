@@ -6,7 +6,6 @@ import { ChevronDown, MapPin, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const allHighCourts = [
-  'Delhi High Court',
   'Calcutta High Court',
   'Bombay High Court',
   'Madras High Court',
@@ -83,7 +82,7 @@ export default function LitigationPage() {
     <section className="py-20 px-4 md:px-12 bg-white min-h-screen">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Litigation & Dispute Resolution (India)
+          Litigation & Mediation (Bharat - India)
         </h1>
         <p className="text-lg text-slate-600 mb-12">
           We appear before the Supreme Court of India, every State High Court, and specialised tribunals.
@@ -132,6 +131,44 @@ export default function LitigationPage() {
           </AnimatePresence>
         </div>
 
+        {/* Delhi High Court */}
+        <div className="border border-slate-200 rounded-2xl mb-4 overflow-hidden">
+          <button
+            onClick={() => toggle('delhi-high-court')}
+            className="w-full flex items-center justify-between p-6 text-left bg-slate-50 hover:bg-amber-50 transition-colors"
+          >
+            <span className="text-lg font-semibold text-slate-900">Delhi High Court</span>
+            <ChevronDown
+              className={`w-5 h-5 text-slate-600 transition-transform duration-300 ${
+                openSection === 'delhi-high-court' ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
+          <AnimatePresence>
+            {openSection === 'delhi-high-court' && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="p-6 pt-0">
+                  <p className="text-slate-600 leading-relaxed mb-4">
+                    Writ jurisdiction, civil original side, commercial disputes, criminal writs, arbitration petitions, and Letters Patent Appeals before the Delhi High Court.
+                  </p>
+                  <Link
+                    href="/practice-areas/litigation/delhi-high-court"
+                    className="inline-flex items-center gap-1 text-amber-600 hover:text-amber-700 font-medium text-sm transition"
+                  >
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {/* State High Courts */}
         <div className="border border-slate-200 rounded-2xl mb-4 overflow-hidden">
           <button
@@ -158,27 +195,19 @@ export default function LitigationPage() {
               >
                 <div className="p-6 pt-0">
                   <p className="text-slate-600 mb-4">
-                    We regularly travel to and appear in all 25 State High Courts across India.
-                    Click any High Court below to learn more about our practice there.
+                    We regularly travel to and appear in the remaining State High Courts across India.
+                    From Jammu & Kashmir to Kerala, Gujarat to Gauhati — we litigate everywhere.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    {allHighCourts.map((court) => {
-                      const slug = court
-                        .toLowerCase()
-                        .replace(/&/g, 'and')
-                        .replace(/\s+/g, '-')
-                        .replace(/[^a-z0-9-]/g, '');
-                      return (
-                        <Link
-                          key={court}
-                          href={`/practice-areas/litigation/${slug}`}
-                          className="flex items-center gap-2 text-sm text-slate-700 px-3 py-2 rounded-lg bg-slate-100 hover:bg-amber-50 hover:text-amber-700 transition"
-                        >
-                          <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
-                          {court}
-                        </Link>
-                      );
-                    })}
+                    {allHighCourts.map((court) => (
+                      <div
+                        key={court}
+                        className="flex items-center gap-2 text-sm text-slate-700 px-3 py-2 rounded-lg bg-slate-100"
+                      >
+                        <MapPin className="w-4 h-4 text-amber-500" />
+                        {court}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </motion.div>

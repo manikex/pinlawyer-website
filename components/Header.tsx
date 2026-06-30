@@ -4,22 +4,24 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Menu, X, ChevronDown, Phone, Globe } from 'lucide-react';
+import { MapPin, Menu, X, ChevronDown, Phone, Globe, Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/components/ThemeProvider';
 
 const navLinks = [
   {
     label: 'Vision',
     children: [
       { href: '/about', label: 'About Us' },
-      { href: '/your-pin-code', label: 'Your Pin Code' },
+      { href: '/your-pin-code', label: 'Pin Appointment' },
     ],
   },
   {
     label: 'Practice Areas',
     children: [
-      { href: '/practice-areas/litigation', label: 'Litigation & Dispute Resolution (India)' },
-      { href: '/practice-areas/corporate-litigation-rera', label: 'Corporate Litigation & RERA' },
-      { href: '/practice-areas/arbitration-adr', label: 'Arbitration & ADR' },
+      { href: '/practice-areas/litigation', label: 'Appellate Litigation and Mediation (Bharat)' },
+      { href: '/practice-areas/tort-motor-vehicles-insurance', label: 'Tort, Motor Vehicles and Insurance Cases' },
+      { href: '/practice-areas/arbitration-adr', label: 'ADR - Arbitration and Negotiation Matters' },
+      { href: '/practice-areas/corporate-litigation-rera', label: 'Corporate Litigation Real Estate (RERA)' },
       { href: '/practice-areas/international-business', label: 'Company Law & International Business Advisory' },
     ],
   },
@@ -113,7 +115,7 @@ function LanguageSwitcher() {
             <button
               key={lang.code}
               onClick={() => switchLanguage(lang.code)}
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-[#0A2A2A] transition ${currentLang === lang.code ? 'text-[#E5B85C] font-semibold' : 'text-white'}`}
+              className={`block w-full text-left pl-4 pr-6 py-2 text-sm hover:bg-[#0A2A2A] transition ${currentLang === lang.code ? 'text-[#E5B85C] font-semibold' : 'text-white'}`}
             >
               {lang.name}
             </button>
@@ -171,6 +173,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
+  const { theme, toggle } = useTheme();
 
   const handleMouseEnter = (label: string) => {
     if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
@@ -181,7 +184,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#072828]/95 backdrop-blur border-b border-[#0A2A2A]">
+    <header className="sticky top-0 z-50 bg-[#072828]/95 backdrop-blur border-b border-[#0A2A2A] dark:bg-slate-950/95 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
           <MapPin className="w-6 h-6 text-[#E5B85C]" />
@@ -211,7 +214,7 @@ export default function Header() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-4 py-2 hover:bg-[#0A2A2A] hover:text-[#E5B85C] transition whitespace-nowrap"
+                        className="block pl-2 pr-6 py-2 hover:bg-[#0A2A2A] hover:text-[#E5B85C] transition whitespace-nowrap"
                       >
                         {child.label}
                       </Link>
@@ -225,19 +228,35 @@ export default function Header() {
               </Link>
             );
           })}
-          {/* Book a Call button – now before the language switcher */}
+
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggle}
+            className="text-slate-300 hover:text-[#E5B85C] transition p-1"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+
+          <LanguageSwitcher />
           <Link
             href="/contact/urgent"
             className="ml-2 px-4 py-2 bg-[#E5B85C] text-[#072828] rounded-lg font-semibold hover:bg-[#d4a843] transition flex items-center gap-1"
           >
             <Phone className="w-4 h-4" /> Book a Call
           </Link>
-          {/* Language Switcher – extreme right */}
-          <LanguageSwitcher />
         </nav>
 
-        {/* Mobile actions (unchanged order: Language, Call, Hamburger) */}
+        {/* Mobile actions */}
         <div className="flex items-center gap-2 lg:hidden">
+          {/* Dark mode toggle for mobile */}
+          <button
+            onClick={toggle}
+            className="p-2 text-white"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
           <LanguageSwitcher />
           <Link href="/contact/urgent" className="p-2 text-white hover:text-[#E5B85C] transition" aria-label="Book a Call">
             <Phone className="w-5 h-5" />

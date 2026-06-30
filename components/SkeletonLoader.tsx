@@ -1,0 +1,5 @@
+export default function SkeletonLoader({ className }: { className?: string }) {
+  return (
+    <div className={`animate-pulse bg-slate-200 dark:bg-slate-700 rounded-lg ${className}`} />
+  );
+}

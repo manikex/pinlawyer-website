@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -10,6 +10,7 @@ import {
   FileText,
   Video,
 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 const services = [
   {
@@ -32,8 +33,11 @@ const services = [
   },
 ];
 
-export default function YourPinCodePage() {
-  const [pin, setPin] = useState('');
+function YourPinCodeContent() {
+  const searchParams = useSearchParams();
+  const initialPin = searchParams.get('pin') || '';
+
+  const [pin, setPin] = useState(initialPin);
   const [result, setResult] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [showMessage, setShowMessage] = useState(false);
 
@@ -50,9 +54,15 @@ export default function YourPinCodePage() {
     }
   };
 
+  useEffect(() => {
+    if (initialPin && initialPin.length === 6) {
+      handleCheck();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <section className="bg-white">
-      {/* Hero with PIN input – reduced height */}
       <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
@@ -88,7 +98,6 @@ export default function YourPinCodePage() {
             From litigation to advisory, we reach every corner of India.
           </motion.p>
 
-          {/* PIN Input */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -121,7 +130,6 @@ export default function YourPinCodePage() {
             </button>
           </motion.div>
 
-          {/* Result message */}
           <div className="relative max-w-md mx-auto mt-2">
             <AnimatePresence>
               {showMessage && result === 'valid' && (
@@ -153,7 +161,6 @@ export default function YourPinCodePage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 md:px-12">
-        {/* How we serve */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -183,7 +190,6 @@ export default function YourPinCodePage() {
           </div>
         </motion.div>
 
-        {/* Client Journey Story – with justified paragraphs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
