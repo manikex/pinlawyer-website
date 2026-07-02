@@ -20,7 +20,7 @@ const categoryCards = [
   },
   {
     id: 'victories',
-    title: 'Case Victories',
+    title: 'Use Cases',
     description: 'Notable case outcomes and landmark judgments from across Indian courts.',
     icon: Award,
     color: 'bg-amber-50 border-amber-200 hover:border-amber-400 dark:bg-amber-950/20 dark:border-amber-800',
@@ -73,11 +73,11 @@ export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
           <div className="flex items-center justify-center gap-3 mb-4">
             <Sparkles className="w-8 h-8 text-[#E5B85C]" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              News <span className="text-[#E5B85C]">&amp; Victories</span>
+              News <span className="text-[#E5B85C]">&amp; Use Cases</span>
             </h1>
           </div>
           <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-            Stay updated with the latest legal developments, case victories, and announcements from Pin Lawyer.
+            Stay updated with the latest legal developments, use cases, and announcements from Pin Lawyer.
           </p>
         </div>
       </div>
