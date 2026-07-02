@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Newspaper, Award, Calendar, Sparkles } from 'lucide-react';
@@ -31,9 +31,122 @@ const categoryCards = [
   },
 ];
 
+// ---------- Animated Geometric Grid ----------
+function GeometricGrid() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const time = Date.now() * 0.0005;
+      const spacing = 60;
+
+      ctx.strokeStyle = 'rgba(229, 184, 92, 0.08)';
+      ctx.lineWidth = 0.5;
+
+      // Vertical lines with subtle wave
+      for (let x = -spacing; x < canvas.width + spacing; x += spacing) {
+        const wave = Math.sin(x * 0.01 + time) * 3;
+        ctx.beginPath();
+        ctx.moveTo(x + wave, 0);
+        ctx.lineTo(x + wave, canvas.height);
+        ctx.stroke();
+      }
+
+      // Horizontal lines with subtle wave
+      for (let y = -spacing; y < canvas.height + spacing; y += spacing) {
+        const wave = Math.cos(y * 0.01 + time) * 3;
+        ctx.beginPath();
+        ctx.moveTo(0, y + wave);
+        ctx.lineTo(canvas.width, y + wave);
+        ctx.stroke();
+      }
+
+      // Subtle glowing nodes at intersections
+      for (let x = 0; x < canvas.width; x += spacing) {
+        for (let y = 0; y < canvas.height; y += spacing) {
+          const waveX = Math.sin(x * 0.01 + time) * 3;
+          const waveY = Math.cos(y * 0.01 + time) * 3;
+          ctx.beginPath();
+          ctx.arc(x + waveX, y + waveY, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(229, 184, 92, 0.15)';
+          ctx.fill();
+        }
+      }
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+    />
+  );
+}
+
+// ---------- Floating Orbs (brighter) ----------
+function FloatingOrbs() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <motion.div
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -40, 20, 0],
+          scale: [1, 1.2, 0.9, 1],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#1E3A5F]/10 blur-3xl"
+      />
+      <motion.div
+        animate={{
+          x: [0, -30, 20, 0],
+          y: [0, 30, -30, 0],
+          scale: [1, 0.8, 1.1, 1],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#E5B85C]/10 blur-3xl"
+      />
+      <motion.div
+        animate={{
+          x: [0, 20, -10, 0],
+          y: [0, -20, 10, 0],
+          scale: [1, 1.1, 0.9, 1],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+        className="absolute top-1/3 right-1/3 w-48 h-48 rounded-full bg-white/5 blur-3xl"
+      />
+    </div>
+  );
+}
+
+// ---------- News Content ----------
 export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [bgTheme, setBgTheme] = useState<'dark' | 'brighter'>('dark');
 
   const selectedCard = categoryCards.find((card) => card.id === selectedCardId);
 
@@ -49,39 +162,112 @@ export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
 
   const filteredItems = useMemo(() => {
     if (!selectedCard) return [];
-
-    const sectionItems = allNews.filter(
-      (item) => item.section === selectedCardId
-    );
-
+    const sectionItems = allNews.filter((item) => item.section === selectedCardId);
     if (activeFilter === 'All') return sectionItems;
-
     return sectionItems.filter((item) => item.category === activeFilter);
   }, [selectedCard, activeFilter, allNews]);
 
+  // ---------- Auto-changing background theme ----------
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgTheme((prev) => (prev === 'dark' ? 'brighter' : 'dark'));
+    }, 2800); // Change every 2.8 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Background classes based on theme
+  const bgClasses = {
+    dark: 'from-slate-950 via-[#0a0f1a] to-slate-900',
+    brighter: 'from-[#0a1628] via-[#0f1f3a] to-[#0a1628]',
+  };
+
+  // Text colors based on theme
+  const textClasses = {
+    dark: 'text-slate-400',
+    brighter: 'text-slate-300',
+  };
+
+  // Badge styles based on theme
+  const badgeClasses = {
+    dark: 'bg-white/5 border-white/10',
+    brighter: 'bg-white/10 border-white/15',
+  };
+
   return (
     <section className="bg-white dark:bg-slate-950 transition-colors duration-300 min-h-screen">
-      {/* Hero */}
-      <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-16 px-4 md:px-12 overflow-hidden">
-        <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1200 400" preserveAspectRatio="none" fill="none">
-          <path d="M-100 200 C100 50, 300 350, 500 150 C700 -50, 900 300, 1300 100" stroke="#E5B85C" strokeWidth="1.5" />
-          <path d="M-100 250 C200 100, 400 400, 600 200 C800 0, 1000 350, 1300 150" stroke="#E5B85C" strokeWidth="1" opacity="0.6" />
-          <circle cx="150" cy="80" r="2" stroke="#E5B85C" strokeWidth="0.8" opacity="0.7" />
-        </svg>
+      {/* ========== HERO – Auto-changing background ========== */}
+      <motion.div
+        initial={false}
+        animate={{
+          background: bgTheme === 'dark' 
+            ? 'linear-gradient(to bottom right, #0f172a, #0a0f1a, #0f172a)'
+            : 'linear-gradient(to bottom right, #0a1628, #0f1f3a, #0a1628)',
+        }}
+        transition={{ duration: 2.5, ease: 'easeInOut' }}
+        className="relative text-white pt-14 pb-16 px-4 md:px-12 overflow-hidden"
+      >
+        {/* Animated geometric grid */}
+        <GeometricGrid />
+
+        {/* Floating orbs for depth */}
+        <FloatingOrbs />
+
+        {/* Subtle vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.3) 100%)',
+          }}
+        />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Sparkles className="w-8 h-8 text-[#E5B85C]" />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              News <span className="text-[#E5B85C]">&amp; Use Cases</span>
-            </h1>
-          </div>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-            Stay updated with the latest legal developments, use cases, and announcements from Pin Lawyer.
-          </p>
-        </div>
-      </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="mb-4"
+          >
+            <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-medium text-[#E5B85C] uppercase tracking-widest transition-all duration-1000 ${badgeClasses[bgTheme]}`}>
+              <Sparkles className="w-3.5 h-3.5" />
+              Pin Lawyer Insights
+            </span>
+          </motion.div>
 
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.15 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-4"
+          >
+            News{' '}
+            <span className="bg-gradient-to-r from-[#E5B85C] via-amber-300 to-[#E5B85C] bg-clip-text text-transparent">
+              &amp; Use Cases
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+            className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${textClasses[bgTheme]}`}
+          >
+            Explore firm updates, landmark judgments, and practical legal applications — 
+            all in one place.
+          </motion.p>
+
+          {/* Decorative bottom line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
+            className="mt-6 w-24 h-0.5 bg-gradient-to-r from-transparent via-[#E5B85C] to-transparent mx-auto"
+          />
+        </div>
+      </motion.div>
+
+      {/* ========== Content Area ========== */}
       <div className="max-w-6xl mx-auto px-4 md:px-12 py-12">
         <AnimatePresence mode="wait">
           {!selectedCard ? (
@@ -128,14 +314,12 @@ export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
               <button onClick={handleBack} className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-[#E5B85C] mb-6 transition">
                 ← Back to categories
               </button>
-
               <div className="flex items-center gap-3 mb-8">
                 <div className={`w-10 h-10 rounded-xl ${selectedCard.iconBg} flex items-center justify-center`}>
                   <selectedCard.icon className={`w-5 h-5 ${selectedCard.iconColor}`} />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">{selectedCard.title}</h2>
               </div>
-
               <div className="flex flex-wrap items-center gap-2 mb-8">
                 {selectedCard.filterOptions.map((filter) => (
                   <button
@@ -151,7 +335,6 @@ export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
                   </button>
                 ))}
               </div>
-
               {filteredItems.length === 0 ? (
                 <div className="text-center py-20">
                   <Newspaper className="w-16 h-16 text-slate-300 mx-auto mb-4" />
@@ -199,10 +382,7 @@ export default function NewsContent({ allNews }: { allNews: NewsPost[] }) {
           )}
         </AnimatePresence>
       </div>
-
-      <p className="pb-12 text-sm text-slate-500 italic text-center">
-        Available at your PIN code.
-      </p>
+      <p className="pb-12 text-sm text-slate-500 italic text-center">Available at your PIN code.</p>
     </section>
   );
 }
