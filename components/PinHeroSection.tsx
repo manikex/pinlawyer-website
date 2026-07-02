@@ -10,6 +10,11 @@ const validPrefixes = new Set([
   '110','111','112','113','114','115','116','117','118','119',
   '120','121','122','123','124','125','126','127','128','129',
   '130','131','132','133','134','135','136','137','138','139',
+  '140','141','142','143','144','145','146','147','148','149',
+  '150','151','152','153','154','155','156','157','158','159',
+  '160','161','162','163','164','165','166','167','168','169',
+  '180','181','182','183','184','185','186','187','188','189',
+  '190','191','192','193','194','195','196','197','198','199',
   '200','201','202','203','204','205','206','207','208','209',
   '210','211','212','213','214','215','216','217','218','219',
   '220','221','222','223','224','225','226','227','228','229',
@@ -84,18 +89,23 @@ const validPrefixes = new Set([
 
 const getPinRegion = (code: string): string => {
   const prefix = code.slice(0, 3);
-  if (/^1[1-3]/.test(prefix)) return 'Delhi';
+  if (/^1[1-3]/.test(prefix)) return 'Delhi / Haryana';
+  if (/^1[4-5]/.test(prefix)) return 'Punjab';
+  if (/^1[6]/.test(prefix)) return 'Chandigarh / Himachal Pradesh';
+  if (/^1[7]/.test(prefix)) return 'Himachal Pradesh';
+  if (/^1[8-9]/.test(prefix)) return 'Jammu & Kashmir / Ladakh';
   if (/^2/.test(prefix)) return 'Uttar Pradesh / Uttarakhand';
   if (/^3[0-4]/.test(prefix)) return 'Rajasthan';
-  if (/^3[6-9]/.test(prefix)) return 'Gujarat';
+  if (/^3[6-9]/.test(prefix)) return 'Gujarat / Daman & Diu / Dadra & Nagar Haveli';
   if (/^4/.test(prefix)) return 'Maharashtra';
   if (/^4[5-8]/.test(prefix)) return 'Madhya Pradesh';
   if (/^49/.test(prefix)) return 'Chhattisgarh';
   if (/^5/.test(prefix)) return 'Andhra Pradesh / Telangana';
+  if (/^5[3]/.test(prefix)) return 'Yanam';
   if (/^5[6-9]/.test(prefix)) return 'Karnataka';
-  if (/^6/.test(prefix)) return 'Tamil Nadu';
-  if (/^6[7-9]/.test(prefix)) return 'Kerala';
-  if (/^7[0-4]/.test(prefix)) return 'West Bengal';
+  if (/^6/.test(prefix)) return 'Tamil Nadu / Puducherry';
+  if (/^6[7-9]/.test(prefix)) return 'Kerala / Lakshadweep';
+  if (/^7[0-4]/.test(prefix)) return 'West Bengal / Andaman & Nicobar Islands';
   if (/^7[5-7]/.test(prefix)) return 'Odisha';
   if (/^7[8-9]/.test(prefix)) return 'Assam / North East';
   if (/^8/.test(prefix)) return 'Bihar / Jharkhand';
@@ -329,6 +339,7 @@ export default function PinHeroSection() {
                   placeholder="Enter your 6-digit PIN code"
                   value={pin}
                   onChange={handlePinChange}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleCheck(); }}
                   className="w-full pl-10 pr-3 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#E5B85C] focus:ring-2 focus:ring-[#E5B85C]/30 transition-all duration-300"
                 />
               </div>

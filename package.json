@@ -15,10 +15,12 @@
     "lucide-react": "^0.400.0",
     "next": "16.2.9",
     "nodemailer": "^6.10.1",
+    "prop-types": "^15.8.1",
     "razorpay": "^2.9.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

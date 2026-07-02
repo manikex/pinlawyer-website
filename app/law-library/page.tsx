@@ -1,7 +1,7 @@
 import { getAllPosts } from '@/lib/posts';
-import LawLibraryClient from './LawLibraryClient';
+import LawLibraryContent from '@/components/LawLibraryContent';
 
 export default function LawLibraryPage() {
   const posts = getAllPosts();
-  return <LawLibraryClient posts={posts} />;
+  return <LawLibraryContent posts={posts} />;
 }

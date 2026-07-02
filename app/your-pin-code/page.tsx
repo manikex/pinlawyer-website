@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -9,7 +9,10 @@ import {
   Globe,
   FileText,
   Video,
+  CalendarPlus,
+  Sparkles,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 const services = [
@@ -33,24 +36,53 @@ const services = [
   },
 ];
 
-function YourPinCodeContent() {
+export default function YourPinCodePage() {
   const searchParams = useSearchParams();
   const initialPin = searchParams.get('pin') || '';
 
   const [pin, setPin] = useState(initialPin);
-  const [result, setResult] = useState<'idle' | 'valid' | 'invalid'>('idle');
+  const [result, setResult] = useState<'idle' | 'valid' | 'invalid' | 'loading'>('idle');
   const [showMessage, setShowMessage] = useState(false);
+  const [locationText, setLocationText] = useState('');
 
-  const validatePin = (code: string) => /^[1-9][0-9]{5}$/.test(code);
-
-  const handleCheck = () => {
-    if (validatePin(pin)) {
-      setResult('valid');
-      setShowMessage(true);
-    } else {
+  const handleCheck = async () => {
+    if (!/^[1-9][0-9]{5}$/.test(pin)) {
       setResult('invalid');
       setShowMessage(true);
+      setLocationText('');
       setTimeout(() => setShowMessage(false), 2500);
+      return;
+    }
+
+    setResult('loading');
+    setShowMessage(true);
+    setLocationText('');
+
+    try {
+      const res = await fetch(`/api/check-pin?pin=${pin}`);
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        setResult('valid');
+
+        const parts: string[] = [];
+        if (data.city) parts.push(data.city);
+        if (data.block && data.block !== data.city) parts.push(data.block);
+        if (data.district) parts.push(data.district);
+        if (data.state) parts.push(data.state);
+
+        let text = parts.join(', ');
+        if (text) text += ', Bharat (India)';
+        if (data.source === 'fallback') text += ' (region detected)';
+
+        setLocationText(text);
+      } else {
+        setResult('invalid');
+        setLocationText('');
+      }
+    } catch {
+      setResult('invalid');
+      setLocationText('');
     }
   };
 
@@ -63,6 +95,7 @@ function YourPinCodeContent() {
 
   return (
     <section className="bg-white">
+      {/* Hero */}
       <div className="relative bg-gradient-to-br from-[#072828] via-[#0A2A2A] to-[#072828] text-white pt-14 pb-20 px-4 md:px-12 overflow-hidden rounded-b-[1.5rem]">
         <svg
           className="absolute inset-0 w-full h-full opacity-20"
@@ -74,7 +107,6 @@ function YourPinCodeContent() {
           <path d="M-50 300 C100 200, 200 80, 400 60 C600 40, 800 80, 1250 50" stroke="#E5B85C" strokeWidth="1.5" strokeLinecap="round" />
           <path d="M-50 350 C150 250, 250 120, 450 90 C650 60, 850 90, 1250 70" stroke="#E5B85C" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
           <path d="M-50 250 C50 150, 150 40, 350 30 C550 20, 750 60, 1250 40" stroke="#E5B85C" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
-          <path d="M100 400 L150 0 M300 400 L320 0 M500 400 L490 0 M700 400 L680 0 M900 400 L870 0 M1100 400 L1080 0" stroke="#E5B85C" strokeWidth="0.6" opacity="0.3" />
           <circle cx="200" cy="70" r="2.5" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.7" />
           <circle cx="600" cy="50" r="3" stroke="#E5B85C" strokeWidth="0.8" fill="none" opacity="0.6" />
         </svg>
@@ -95,7 +127,6 @@ function YourPinCodeContent() {
             className="text-lg text-slate-300 max-w-2xl mx-auto mb-10"
           >
             Type any Indian PIN code — see instantly how Pin Lawyer serves your area.
-            From litigation to advisory, we reach every corner of India.
           </motion.p>
 
           <motion.div
@@ -117,8 +148,10 @@ function YourPinCodeContent() {
                   if (showMessage) {
                     setShowMessage(false);
                     setResult('idle');
+                    setLocationText('');
                   }
                 }}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleCheck(); }}
                 className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-[#E5B85C] focus:ring-1 focus:ring-[#E5B85C] transition"
               />
             </div>
@@ -130,6 +163,7 @@ function YourPinCodeContent() {
             </button>
           </motion.div>
 
+          {/* Result message + buttons */}
           <div className="relative max-w-md mx-auto mt-2">
             <AnimatePresence>
               {showMessage && result === 'valid' && (
@@ -137,12 +171,41 @@ function YourPinCodeContent() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="bg-emerald-500/90 text-white text-sm px-4 py-3 rounded-lg flex items-center justify-center gap-2"
+                  className="flex flex-col items-center gap-3"
                 >
-                  <CheckCircle className="w-4 h-4" />
-                  Your PIN {pin} is fully covered! We serve your area.
+                  {/* Success message */}
+                  <div className="w-full bg-emerald-500/90 text-white text-sm px-4 py-3 rounded-lg flex flex-col items-center gap-1">
+                    <span className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4" />
+                      Your PIN {pin} is fully covered! We serve your area.
+                    </span>
+                    {locationText && (
+                      <span className="text-xs italic text-emerald-100 text-center leading-relaxed">
+                        {locationText}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Two action buttons – updated links */}
+                  <div className="flex gap-3 w-full">
+                    <Link
+                      href={`/book-appointment?pin=${pin}&type=free`}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#E5B85C] hover:bg-[#d4a843] text-[#072828] font-semibold rounded-lg transition transform hover:scale-105 shadow-lg text-sm whitespace-nowrap"
+                    >
+                      <CalendarPlus className="w-4 h-4 shrink-0" />
+                      Book Free Appointment
+                    </Link>
+                    <Link
+                      href={`/book-appointment?pin=${pin}&type=premium`}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-gradient-to-r from-amber-400 to-[#E5B85C] hover:from-amber-300 hover:to-[#d4a843] text-[#072828] font-semibold rounded-lg transition transform hover:scale-105 shadow-lg text-sm whitespace-nowrap"
+                    >
+                      <Sparkles className="w-4 h-4 shrink-0" />
+                      Book Premium Appointment
+                    </Link>
+                  </div>
                 </motion.div>
               )}
+
               {showMessage && result === 'invalid' && (
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
@@ -152,6 +215,17 @@ function YourPinCodeContent() {
                 >
                   <AlertCircle className="w-4 h-4" />
                   Please enter a valid 6‑digit Indian PIN code.
+                </motion.div>
+              )}
+              {showMessage && result === 'loading' && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-slate-500/90 text-white text-sm px-4 py-3 rounded-lg flex items-center justify-center gap-2"
+                >
+                  <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                  Verifying PIN code…
                 </motion.div>
               )}
             </AnimatePresence>
@@ -168,18 +242,13 @@ function YourPinCodeContent() {
           transition={{ duration: 0.6 }}
           className="py-16 md:py-20"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-            How We Serve You
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">How We Serve You</h2>
           <p className="text-slate-600 text-center mb-12 max-w-xl mx-auto">
             No matter where your PIN code places you, our service model adapts to your needs.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((service, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300 text-center"
-              >
+              <div key={idx} className="p-6 rounded-2xl border border-slate-200 hover:border-[#E5B85C] hover:shadow-lg transition-all duration-300 text-center">
                 <div className="w-14 h-14 rounded-xl bg-[#E5B85C]/20 flex items-center justify-center mx-auto mb-4">
                   <service.icon className="w-7 h-7 text-[#E5B85C]" />
                 </div>
@@ -197,18 +266,14 @@ function YourPinCodeContent() {
           transition={{ duration: 0.6 }}
           className="py-16 md:py-20 border-t border-slate-200"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-            A Real Client Journey
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">A Real Client Journey</h2>
           <div className="max-w-3xl mx-auto mt-8 p-8 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="flex items-center gap-2 text-[#0F1D3A] font-semibold mb-4">
-              <MapPin className="w-5 h-5" />
-              PIN — 803110 (a village in Bihar)
+              <MapPin className="w-5 h-5" /> PIN — 803110 (a village in Bihar)
             </div>
             <a
               href="https://api.sci.gov.in/supremecourt/2025/45011/45011_2025_15_31_64091_Order_08-Sep-2025.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              target="_blank" rel="noopener noreferrer"
               className="inline-block mb-4 text-sm text-blue-600 hover:text-blue-800 underline font-medium"
             >
               View Supreme Court Order (PDF)

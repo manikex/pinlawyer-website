@@ -71,6 +71,15 @@ const otherAreas = [
   },
 ];
 
+// Helper to convert court name into a URL-friendly slug
+function courtSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 export default function LitigationPage() {
   const [openSection, setOpenSection] = useState<string | null>('supreme-court');
 
@@ -200,13 +209,14 @@ export default function LitigationPage() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {allHighCourts.map((court) => (
-                      <div
+                      <Link
                         key={court}
-                        className="flex items-center gap-2 text-sm text-slate-700 px-3 py-2 rounded-lg bg-slate-100"
+                        href={`/practice-areas/litigation/${courtSlug(court)}`}
+                        className="flex items-center gap-2 text-sm text-slate-700 px-3 py-2 rounded-lg bg-slate-100 hover:bg-amber-50 hover:text-amber-700 transition"
                       >
-                        <MapPin className="w-4 h-4 text-amber-500" />
+                        <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
                         {court}
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </div>

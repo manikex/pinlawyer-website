@@ -6,8 +6,8 @@ export async function POST(request: Request) {
     const { name, phone, email, pinCode, caseType, message } = await request.json();
 
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
+      host: process.env.EMAIL_HOST || 'mail.smtp2go.com',
+      port: Number(process.env.EMAIL_PORT) || 2525,
       secure: process.env.EMAIL_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
@@ -15,10 +15,10 @@ export async function POST(request: Request) {
       },
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,   // <-- now uses a real email address
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
       to: process.env.EMAIL_TO,
-      subject: `New Enquiry from ${name}`,
+      subject: `New Contact Enquiry from ${name}`,
       html: `
         <h2>New Enquiry from Pin Lawyer Website</h2>
         <p><strong>Name:</strong> ${name}</p>
@@ -28,11 +28,14 @@ export async function POST(request: Request) {
         <p><strong>Case Type:</strong> ${caseType}</p>
         <p><strong>Message:</strong> ${message}</p>
       `,
-    });
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('✅ Contact email sent:', info.messageId);
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Email error:', error);
+    console.error('❌ Contact email error:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }

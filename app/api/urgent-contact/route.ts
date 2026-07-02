@@ -6,8 +6,8 @@ export async function POST(request: Request) {
     const { name, phone, email, pinCode, details } = await request.json();
 
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
+      host: process.env.EMAIL_HOST || 'mail.smtp2go.com',
+      port: Number(process.env.EMAIL_PORT) || 2525,
       secure: process.env.EMAIL_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
@@ -15,8 +15,8 @@ export async function POST(request: Request) {
       },
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
       to: process.env.EMAIL_TO,
       subject: `URGENT Contact from ${name}`,
       priority: 'high',
@@ -29,11 +29,14 @@ export async function POST(request: Request) {
         <p><strong>Details:</strong> ${details}</p>
         <p><em>Respond within 30–40 minutes.</em></p>
       `,
-    });
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('✅ Urgent email sent:', info.messageId);
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Email error:', error);
+    console.error('❌ Urgent email error:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }

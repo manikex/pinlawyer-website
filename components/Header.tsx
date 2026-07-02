@@ -12,6 +12,7 @@ const navLinks = [
     label: 'Vision',
     children: [
       { href: '/about', label: 'About Us' },
+      { href: '/news', label: 'News' },
       { href: '/your-pin-code', label: 'Pin Appointment' },
     ],
   },
@@ -32,8 +33,7 @@ const navLinks = [
       { href: '/pro-bono', label: "Pro Bono's" },
       { href: '/help-center', label: 'Help Center' },
       { href: '/work-process', label: 'Features' },
-      { href: '/faq', label: 'FAQs' },
-      { href: '/party-testimonial', label: 'Party Testimonial' },
+      { href: '/faq', label: 'FAQs & Testimonials' },
     ],
   },
   { href: '/careers', label: 'Careers' },
@@ -229,7 +229,18 @@ export default function Header() {
             );
           })}
 
-          {/* Dark mode toggle */}
+          {/* Book a Call */}
+          <Link
+            href="/contact/urgent"
+            className="px-4 py-2 bg-[#E5B85C] text-[#072828] rounded-lg font-semibold hover:bg-[#d4a843] transition flex items-center gap-1"
+          >
+            <Phone className="w-4 h-4" /> Book a Call
+          </Link>
+
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+
+          {/* Dark mode toggle – extreme right corner */}
           <button
             onClick={toggle}
             className="text-slate-300 hover:text-[#E5B85C] transition p-1"
@@ -237,24 +248,11 @@ export default function Header() {
           >
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-
-          <LanguageSwitcher />
-          <Link
-            href="/contact/urgent"
-            className="ml-2 px-4 py-2 bg-[#E5B85C] text-[#072828] rounded-lg font-semibold hover:bg-[#d4a843] transition flex items-center gap-1"
-          >
-            <Phone className="w-4 h-4" /> Book a Call
-          </Link>
         </nav>
 
-        {/* Mobile actions */}
+        {/* Mobile actions (order: Dark toggle, Language, Call, Hamburger) */}
         <div className="flex items-center gap-2 lg:hidden">
-          {/* Dark mode toggle for mobile */}
-          <button
-            onClick={toggle}
-            className="p-2 text-white"
-            aria-label="Toggle theme"
-          >
+          <button onClick={toggle} className="p-2 text-white" aria-label="Toggle theme">
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
           <LanguageSwitcher />
